@@ -1,0 +1,57 @@
+Chú bò hư hỏng (cây)
+
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e5+5;
+int p[N],s[N];
+int n,m;
+void make_set(){
+    for(int i=1;i<=n;i++){
+        p[i]=i;
+        s[i]=1;
+    }
+}
+int find_set(int u){
+    if(u==p[u]){
+        return u;
+    }
+    return p[u]=find_set(p[u]);
+}
+void join(int u,int v){
+    u=find_set(u);
+    v=find_set(v);
+    if(u!=v){
+        if(s[u]<s[v]){
+            int temp=u;
+            u=v;
+            v=temp;
+        }
+        p[v]=u;
+        s[u]+=s[v];
+    }
+}
+int main(){
+    cin>>n>>m;
+    make_set();
+    for(int i=0;i<m;i++){
+        int u,v;
+        cin>>u>>v;
+        join(u,v);
+    }
+    int u=find_set(1);
+    for(int i=2;i<=n;i++){
+        int v=find_set(i);
+        if(u!=v){  
+            cout<<i<<endl;
+        }
+    }
+}
+
+
+
+================================================================================================
+
+
+
+
+
