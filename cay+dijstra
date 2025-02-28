@@ -1,4 +1,792 @@
-Chú bò hư hỏng (cây)
+Kén chồng (9/10)
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct a {
+    int b, c;
+    bool operator>(const a &d) const {
+        return c > d.c;
+    }
+};
+
+int main() {
+    int e, f, g, h, i;
+    cin>>e>>f>>g>>h>>i;
+
+    vector<int> j(e+1);
+    for(int k=1; k<=e; k++) cin>>j[k];
+
+    vector<vector<int>> l(e+1);
+    for(int m=0; m<f; m++) {
+        int n, o;
+        cin>>n>>o;
+        l[n].push_back(o);
+        l[o].push_back(n);
+    }
+
+    priority_queue<a, vector<a>, greater<a>> p;
+    vector<int> q(e+1, INT_MAX);
+
+    p.push({g, j[g]});
+    q[g] = j[g];
+
+    while(!p.empty()) {
+        a r = p.top(); p.pop();
+        
+        if(r.b == h) {
+            if(r.c <= i) cout<<r.c<<endl;
+            else cout<<-1<<endl;
+            return 0;
+        }
+        
+        for(int s : l[r.b]) {
+            int t = r.c + j[s];
+            if(t < q[s]) {
+                q[s] = t;
+                p.push({s, t});
+            }
+        }
+    }
+    
+    cout<<-1<<endl;
+    return 0;
+}
+
+
+====================================================================================
+
+
+HUGO (full)
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct a {
+    int b, c, d;
+    bool operator>(const a &e) const {
+        if (d == e.d)
+            return c > e.c;
+        return d > e.d;
+    }
+};
+
+int main() {
+    int f;
+    cin>>f;
+
+    vector<vector<pair<int, int>>> g(f+1);
+    int h, i, j;
+    while(cin>>h>>i>>j) {
+        g[h].push_back({i, j});
+        g[i].push_back({h, j});
+    }
+
+    priority_queue<a, vector<a>, greater<a>> k;
+    vector<vector<int>> l(f+1, vector<int>(f+1, INT_MAX));
+    k.push({1, 0, 0});
+    l[1][0] = 0;
+
+    while(!k.empty()) {
+        a m = k.top(); k.pop();
+
+        if(m.b == f) {
+            cout<<m.c<<endl;
+            cout<<m.d<<endl;
+            return 0;
+        }
+
+        for(auto &[n, o] : g[m.b]) {
+            int p = m.c + (o > 0 ? o : 0);
+            int q = m.d + (o == 0 ? 1 : 0);
+
+            if(p < l[n][q]) {
+                l[n][q] = p;
+                k.push({n, p, q});
+            }
+        }
+    }
+
+    cout<<-1<<endl;
+    return 0;
+}
+
+================================================================
+
+GIAO THONG
+
+#include <bits/stdc++.h>
+#define ii pair <int, int> 
+using namespace std;
+const int N=1e6+7;
+int n,d[N],m;
+vector <ii> e[N];
+void dijstra(int s){
+    for(int i=1;i<=n;i++){
+        d[i]=1e15;
+    }
+    d[s]=0;
+    priority_queue <ii, vector <ii>, greater <ii>> qp;
+    qp.push({0,s});
+    while(!qp.empty()){
+        ii top=qp.top();
+        qp.pop();
+        int kc=top.first;
+        int u=top.second;
+        if(kc!=d[u]){
+            continue;
+        }
+        for(ii x:e[u]){
+            int z=x.first;
+            int y=x.second;
+            if(d[z]>y+kc){
+                d[z]=y+kc;
+                qp.push({d[z],z});
+            }
+        }
+    }
+}
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin>>n>>m;
+    for(int i=1;i<=m;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        e[u].push_back({v,w});
+        e[v].push_back({u,w});
+    }
+    dijstra(1);
+    cout<<d[n];
+}
+
+=====================================================================
+VAN CHUYEN
+
+#include<bits/stdc++.h>
+#define ii pair<int,int>
+using namespace std;
+const int N=1e6+3;
+vector<ii> e[N];
+int d[N];
+int n,m,s,t;
+void dijkstra(int s){
+    for(int i=1;i<=n;i++){
+        d[i]=1e9;
+    }
+    d[s]=0;
+    priority_queue<ii,vector<ii>,greater<ii>> q;
+    q.push({0,s});
+    while(!q.empty()){
+        ii top=q.top();
+        q.pop();
+        int kc=top.first;
+        int u=top.second;
+        if(kc!=d[u]){
+            continue;
+        }
+        for(ii it:e[u]){
+            int v=it.first;
+            int w=it.second;
+            if(d[v]>d[u]+w){
+                d[v]=d[u]+w;
+                q.push({d[v],v});
+            }
+        }
+    }
+}
+
+int main(){
+    cin>>n>>m>>s>>t;
+    for(int i=1;i<=m;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        e[u].push_back({v,w});
+        e[v].push_back({u,w});
+    }
+    dijkstra(s);
+    cout<<d[t]<<endl;
+    return 0;
+}
+
+=======================================================
+
+DANG CAI
+
+
+#include <bits/stdc++.h>
+#define ii pair <int,int>
+using namespace std;
+const int N=1e6+7;
+vector <ii> e[N];
+int n,m,d[N],max1;
+int ans=1e15;
+void dijktra(int s){
+    priority_queue<ii,vector<ii>,greater<ii>> q;
+    for(int i=1;i<=n;i++){
+        d[i]=10e15;
+    }
+        d[s]=0;
+        q.push({0,s});
+        while(!q.empty()){
+            ii top=q.top();
+            q.pop();
+            int kc=top.first;
+            int u=top.second;
+            if(kc>d[u]){
+                continue;
+            }
+            for(ii it:e[u]){
+                int v=it.first;
+                int w=it.second;
+                if(d[v]>d[u]+w){
+                    d[v]=d[u]+w;
+                    q.push({d[v],v});
+            }
+        }
+    }
+}
+int dinh=INT_MAX;
+int main(){
+    cin>>n>>m;
+    for(int i=1;i<=m;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        e[u].push_back({v,w});
+        e[v].push_back({u,w});
+    }
+    for(int i=1;i<=n;i++){
+        dijktra(i);
+        max1=0;
+        for(int j=1;j<=n;j++){
+            if(d[j]>max1){
+                max1=d[j];
+            }
+        }
+        if(max1<ans){
+            ans=max1;
+            dinh=i;
+        }
+    }
+    cout<<dinh<<" "<<ans;
+}
+
+======================================================================
+
+DUONG DI NGAN NHAT
+
+
+#include <bits/stdc++.h>
+#define ii pair<int,int>
+using namespace std;
+const int N=1e6+7;
+int d[N],a[N],n,m;
+vector<ii> dske[N];
+void dis(int s,int t){
+    for(int i=1;i<=n;i++){
+        d[i]=1e9;
+    }
+    priority_queue<ii,vector<ii>,greater<ii>> pq;
+    d[s]=0;
+    pq.push({0,s});
+    a[s]=s;
+    while(!pq.empty()){
+        ii top=pq.top();
+        pq.pop();
+        int kc=top.first;
+        int u=top.second;
+        if(kc>d[u]){
+            continue;
+        }
+        for(ii it:dske[u]){
+            int v=it.first;
+            int w=it.second;
+            if(d[v]>d[u]+w){
+                d[v]=d[u]+w;
+                pq.push({d[v],v});
+                a[v]=u;
+            }
+        }
+    }
+    if(d[t]==1e9){
+        d[t]=-1;
+    }
+    cout<<d[t];
+    
+}
+int main(){
+    int c,b;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin>>n>>m>>c>>b;
+    for(int i=1;i<=m;i++){
+        int x,y,z;
+        cin>>x>>y>>z;
+        dske[x].push_back({y,z});
+        dske[y].push_back({x,z});
+    }
+    dis(c,b);
+}
+
+===================================================
+
+VAN CHUYEN
+
+
+
+#include <bits/stdc++.h>
+#define ii pair<int,int>
+using namespace std;
+const int N=1e6+7;
+int d[N],a[N],n,m;
+vector<ii> dske[N];
+void dis(int s,int t){
+    for(int i=1;i<=n;i++){
+        d[i]=1e9;
+    }
+    priority_queue<ii,vector<ii>,greater<ii>> pq;
+    d[s]=0;
+    pq.push({0,s});
+    a[s]=s;
+    while(!pq.empty()){
+        ii top=pq.top();
+        pq.pop();
+        int kc=top.first;
+        int u=top.second;
+        if(kc>d[u]){
+            continue;
+        }
+        for(ii it:dske[u]){
+            int v=it.first;
+            int w=it.second;
+            if(d[v]>d[u]+w){
+                d[v]=d[u]+w;
+                pq.push({d[v],v});
+                a[v]=u;
+            }
+        }
+    }
+    cout<<d[t];
+}
+int main(){
+    int c,b;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin>>n>>m>>c>>b;
+    for(int i=1;i<=m;i++){
+        int x,y,z;
+        cin>>x>>y>>z;
+        dske[x].push_back({y,z});
+        dske[y].push_back({x,z});
+    }
+    dis(c,b);
+}
+
+
+===========================================================
+CHON TP TRUNG TAM
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ii pair<int,int>
+const int N=1e6+7;
+vector<ii> e[N];
+int n,m,d[N];
+
+void dis(int s){
+    for(int i=1;i<=n;i++){
+        d[i]=1e9+9;
+    }
+    priority_queue<ii,vector<ii>,greater<ii>> pq;
+    d[s]=0;
+    pq.push({0,s});
+    while(!pq.empty()){
+        ii top=pq.top();
+        pq.pop();
+        int kc=top.first;
+        int u=top.second;
+        if(kc!=d[u]) continue;
+        for(auto x:e[u]){
+            int v=x.first;
+            int w=x.second;
+            if(d[v]>d[u]+w){
+                d[v]=d[u]+w;
+                pq.push({d[v],v});
+            }
+        }
+    }
+}
+
+int main(){
+    cin>>n>>m;
+    for(int i=1;i<=m;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        e[u].push_back({v,w});
+        e[v].push_back({u,w});
+    }
+    int temp=1e9;
+    for(int i=1;i<=n;i++){
+        dis(i);
+        int res=0;
+        for(int j=1;j<=n;j++){
+            res+=d[j];
+        }
+        temp=min(temp,res);
+    }
+    cout<<temp;
+}
+
+==================================================================
+
+ONG NGAU BA NGAU
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#define pii pair<int,int>
+
+void dijkstra(int i, vector<pii> adj[], vector<int>& dist) {
+    dist[i] = 0;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    pq.push({0, i});
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        int d = pq.top().first;
+        pq.pop();
+        if (d > dist[u]) {
+            continue;
+        }
+        for (pii it : adj[u]) {
+            int v = it.first, w = it.second;
+            if (dist[v] > dist[u] + w) {
+                dist[v] = dist[u] + w;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0), cout.tie(0);   
+
+    int n, m, s, t;
+    const int INF = 1e9;
+    cin >> n >> m >> s >> t;
+    vector<pii> adj[n + 1];
+    vector<int> dist_s(n + 1, INF), dist_t(n + 1, INF);
+    while (m--) {
+        int i, j, l;
+        cin >> i >> j >> l;
+        adj[i].push_back({j, l});
+        adj[j].push_back({i, l});
+    }
+    dijkstra(s, adj, dist_s);
+    dijkstra(t, adj, dist_t);
+    int minn = INF, id = -1;
+    for (int i = 1; i <= n; i++) {
+        if (dist_s[i] == dist_t[i]) {
+            int total = dist_s[i] + dist_t[i];
+            if (total < minn) {
+                minn = total;
+                id = i;
+            }
+        }
+    }
+    if (id == -1) {
+        cout << "CRY";
+    } else {
+        cout << id;
+    }
+}
+
+=================================================================================
+
+XAY DUNG DUONG
+(8/10)
+#include <bits/stdc++.h>
+using namespace std;
+const int N=1e6+7;
+struct ed{
+    int x,y,w;
+};
+int n,m;
+vector<ed> e;
+int p[N],s[N];
+void make_set(){
+    for(int i=1;i<=n;i++){
+        p[i]=i;
+        s[i]=1;
+    }
+}
+int find_set(int u){
+    if(p[u]==u){
+        return u;
+    }else{
+        return p[u]=find_set(p[u]);
+    }
+}
+bool join(int i,int j){
+    int u=find_set(i);
+    int v=find_set(j);
+    if(u==v){
+        return false;
+    }
+    if(s[u]<s[v]){
+        p[v]=u;
+        s[v]+=s[u];
+    }else{
+        p[u]=v;
+        s[u]+=s[v];
+    }
+    return true;
+}
+bool ss(ed u,ed v){
+    return u.w<v.w;
+}
+int ans=0;
+vector<ed> mst;
+void kruskal(){
+    sort(e.begin(),e.end(),ss);
+    for(int i=1;i<=m;i++){
+        if(mst.size()==n-1){
+            break;
+        }
+        int u=e[i].x;
+        int v=e[i].y;
+        if(join(u,v)){
+            mst.push_back(e[i]);
+            ans+=e[i].w;
+        }
+    }
+}
+int main(){
+    cin>>n>>m;
+    make_set();
+    for(int i=1;i<=m;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        e.push_back({u,v,w});
+    }
+    kruskal();
+    int temp=0;
+    for(auto x:mst){
+        temp=max(temp,x.w);
+    }
+    cout<<temp;
+}
+
+========================================================================
+CAP QUANG
+
+#include <bits/stdc++.h>
+using namespace std;
+const int N=1e6+7;
+struct ed{
+    int x,y,w;
+};
+vector<ed> e;
+int p[N],s[N],n,m;
+void make_set(){
+    for(int i=1;i<=n;i++){
+        p[i]=i;
+        s[i]=1;
+    }
+}
+int find_set(int u){
+    if(u==p[u]){
+        return u;
+    }else{
+        return p[u]=find_set(p[u]);
+    }
+}
+bool join(int i,int j){
+    int u=find_set(i);
+    int v=find_set(j);
+    if(u==v){
+        return false;
+    }
+    if(s[u]<s[v]){
+        p[u]=v;
+        s[v]+=s[u];
+    }else{
+        p[v]=u;
+        s[u]+=s[v];
+    }
+    return true;
+}
+bool ss(ed u,ed v){
+    return u.w<v.w;
+}
+int ans=0;
+vector<ed> mst;
+void krulka(){
+    sort(e.begin(),e.end(),ss);
+    for(int i=0;i<e.size();i++){
+        if(mst.size()==n-1){
+            break;
+        }
+        int u=e[i].x;
+        int v=e[i].y;
+        if(join(u,v)){
+            mst.push_back(e[i]);
+            ans+=e[i].w;
+        }
+    }
+}
+int main(){
+    cin>>n;
+    int x,y,z;
+    make_set();
+    while(cin>>x>>y>>z){
+        e.push_back({x,y,z});
+    }
+    
+    krulka();
+    cout<<ans;
+}
+
+
+===========================================================
+
+F1
+
+#include<bits/stdc++.h>
+#define int long long
+using namespace std;
+int n,m,sum=0;
+pair<pair<int,int>,int>p[100001];
+int sz[100001],cha[100001];
+bool cmp(pair<pair<int,int>,int>a,pair<pair<int,int>,int>b)
+{
+    return a.second>b.second;
+}
+int find_set(int u)
+{
+    if (u==cha[u]) return u;
+    else return cha[u]=find_set(cha[u]);
+}
+void noiset(int u,int v)
+{
+    u=find_set(u);
+    v=find_set(v);
+    if (u!=v)
+    {
+        if (sz[u]<sz[v]) swap(u,v);
+        sz[u]+=sz[v];
+        cha[v]=u;
+    }
+
+}
+signed main()
+{
+    cin>>n>>m;
+    for (int i=1;i<=m;i++)
+    {
+        cin>>p[i].first.first>>p[i].first.second>>p[i].second;
+        sum=sum+p[i].second;
+    }
+    for (int i=1;i<=n;i++)
+    {
+        sz[i]=1;
+        cha[i]=i;
+    }
+    sort(p+1,p+m+1,cmp);
+    for (int i=1;i<=m;i++)
+    {
+        int u=p[i].first.first;
+        int v=p[i].first.second;
+        int cost=p[i].second;
+        if (find_set(u)!=find_set(v))
+        {
+            noiset(u,v);
+            sum=sum-cost;
+        }
+    }
+    cout<<sum;
+}
+
+=============================================================================
+KHI DOT
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define INF INT_MAX
+
+void solve() {
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<pair<int, int>>> adj(n + 1);
+    
+    // Đọc các cạnh của đồ thị
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back({v, 0}); // Cạnh từ u -> v theo hướng ban đầu
+        adj[v].push_back({u, 1}); // Cạnh từ v -> u là cạnh ngược chiều, cần đổi
+    }
+    
+    // Dùng BFS với trọng số 0-1
+    deque<int> dq;
+    vector<int> dist(n + 1, INF); // Khoảng cách từ 1 đến các đỉnh
+    dist[1] = 0;
+    dq.push_back(1);
+    
+    while (!dq.empty()) {
+        int u = dq.front();
+        dq.pop_front();
+        
+        // Duyệt tất cả các đỉnh kề
+        for (auto& p : adj[u]) {
+            int v = p.first;
+            int cost = p.second; // Trọng số cạnh, 0 hoặc 1
+            
+            if (dist[u] + cost < dist[v]) {
+                dist[v] = dist[u] + cost;
+                if (cost == 1) {
+                    dq.push_back(v); // Đưa vào cuối nếu cần đổi chiều (trọng số 1)
+                } else {
+                    dq.push_front(v); // Đưa vào đầu nếu không cần đổi chiều (trọng số 0)
+                }
+            }
+        }
+    }
+    
+    // Kết quả là khoảng cách đến trạm n
+    if (dist[n] == INF) {
+        cout << -1 << endl;
+    } else {
+        cout << dist[n] << endl;
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    
+    int T;
+    cin >> T;
+    
+    while (T--) {
+        solve();
+    }
+    
+    return 0;
+}
+
+================================================================================
+
+CHU BO HHU HONG
+
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -46,11 +834,142 @@ int main(){
         }
     }
 }
+=============================================================
+CAC THUNG NUOC
+
+#include <bits/stdc++.h>
+using namespace std;
+const int N=1e6+7;
+struct ed{
+    int x,y,w;
+};
+vector<ed> e;
+int p[N],s[N],n,m;
+void make_set(){
+    for(int i=1;i<=n;i++){
+        p[i]=i;
+        s[i]=1;
+    }
+}
+int find_set(int u){
+    if(u==p[u]){
+        return u;
+    }else{
+        return p[u]=find_set(p[u]);
+    }
+}
+bool join(int i,int j){
+    int u=find_set(i);
+    int v=find_set(j);
+    if(u==v){
+        return false;
+    }
+    if(s[u]<s[v]){
+        p[u]=v;
+        s[v]+=s[u];
+    }else{
+        p[v]=u;
+        s[u]+=s[v];
+    }
+    return true;
+}
+
+int main(){
+    cin>>n>>m;
+    make_set();
+    
+    while(m--){
+        int u,v,w;
+        cin>>u>>v>>w;
+        if(w==1){
+            join(u,v);
+        }else{
+            if(find_set(u)==find_set(v)){
+                cout<<1<<endl;
+            }else{
+                cout<<0<<endl;
+            }
+        }
+    }
+
+   
+}
 
 
 
-================================================================================================
+=======================================================================
+CAY KHUNG NHO NHAT
 
+#include <bits/stdc++.h>
+using namespace std;
+const int N=1e6+7;
+struct ed{
+    int x,y,w;
+};
+vector<ed> e;
+int n,m,p[N],s[N];
+long long ans;
+void make_set(){
+    for(int i=1;i<=n;i++){
+        p[i]=i;
+        s[i]=1;
+    }
+}
+int find_set(int u){
+    if(u==p[u]){
+        return u;
+    }
+    return p[u]=find_set(p[u]);
+}
+bool hop(int i,int j){
+    int u = find_set(i);
+    int v = find_set(j);
+    if(u==v){
+        return false;
+    }
+    if(s[u]<s[v]){
+        p[u]=v;
+        s[v]+=s[u];
+    }else{
+        p[v]=u;
+        s[u]+=s[v];
+    }
+    return true;
+}
+bool ss(ed u,ed v){
+    return u.w<v.w;
+}
+void kruskal(){
+    vector<ed> mst;
+    sort(e.begin(),e.end(),ss);
+    for(int i=0;i<m;i++){
+        if(mst.size()==n-1){
+            break;
+        }
+        int u=e[i].x;
+        int v=e[i].y;
+        if(hop(u,v)){
+            mst.push_back(e[i]);
+            ans+=e[i].w;
+        }
+    }
+    cout<<ans;
+}
+int main(){
+    ios::sync_with_stdio(false); 
+    cin.tie(0); 
+    cout.tie(0);
+    cin>>n>>m;
+    make_set();
+    for(int i=0;i<m;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        e.push_back({u,v,w});
+    }
+    kruskal();
+
+}
+===============================================================
 
 
 
