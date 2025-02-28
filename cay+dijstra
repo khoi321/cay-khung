@@ -215,7 +215,7 @@ int main(){
 =======================================================
 
 DANG CAI
-
+(1 test qua thoi gian)
 
 #include <bits/stdc++.h>
 #define ii pair <int,int>
@@ -390,7 +390,7 @@ int main(){
 
 ===========================================================
 CHON TP TRUNG TAM
-
+(8/10) 
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -473,7 +473,7 @@ void dijkstra(int i, vector<pii> adj[], vector<int>& dist) {
     }
 }
 
-int32_t main() {
+int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(0), cout.tie(0);   
 
@@ -785,7 +785,7 @@ int main() {
 
 ================================================================================
 
-CHU BO HHU HONG
+CHU BO HU HONG
 
 
 #include<bits/stdc++.h>
