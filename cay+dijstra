@@ -971,6 +971,54 @@ int main(){
 }
 ===============================================================
 
+MAU GIAO
 
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int find(int a, vector<int>& parent) {
+    if(parent[a]!=a)
+        parent[a]=find(parent[a],parent);
+    return parent[a];
+}
+
+void unionSet(int a, int b, vector<int>& parent, vector<int>& size) {
+    a=find(a,parent);
+    b=find(b,parent);
+    if(a!=b) {
+        if(a<b) swap(a,b);
+        parent[b]=a;
+        size[a]+=size[b];
+        size[b]=0;
+    }
+}
+
+int main() {
+    int n,m;
+    cin>>n>>m;
+    vector<int> parent(n+1);
+    vector<int> size(n+1,1);
+    for(int i=1;i<=n;i++) parent[i]=i;
+    
+    for(int i=0;i<m;i++) {
+        int x,y;
+        cin>>x>>y;
+        unionSet(x,y,parent,size);
+    }
+    
+    int remaining=0, maxCards=0;
+    for(int i=1;i<=n;i++) {
+        if(parent[i]==i && size[i]>0) {
+            remaining++;
+            maxCards=max(maxCards,size[i]);
+        }
+    }
+    cout<<remaining<<endl<<maxCards<<endl;
+    return 0;
+}
+
+
+=============================================================
 
 
